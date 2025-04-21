@@ -1,5 +1,7 @@
 # Design Agency for Hospitality & Travel (Kids & Teens)
 
+<!-- Trigger redeploy -->
+
 A beautiful, minimal, and adaptive website for a design agency specializing in hospitality and travel for kids and teens. Designed for hotel decision makers.
 
 ## Features
