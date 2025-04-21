@@ -54,22 +54,76 @@ const HeroSection = styled.section`
   position: relative;
   min-height: 70vh;
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  background: linear-gradient(0deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.7) 100%), url('/hero image.png') center/cover no-repeat;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  background: #f7f9fa;
   padding-top: 6rem;
+  overflow: hidden;
   @media (max-width: 900px) {
+    flex-direction: column;
     min-height: 55vh;
     padding-top: 4rem;
   }
 `;
 
 const HeroContent = styled.div`
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-left: 6vw;
-  max-width: 540px;
-  @media (max-width: 600px) {
+  max-width: 520px;
+  z-index: 2;
+  @media (max-width: 900px) {
     margin-left: 4vw;
     max-width: 90vw;
+    margin-bottom: 2rem;
+  }
+`;
+
+const HeroImageWrapper = styled.div`
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  @media (max-width: 900px) {
+    width: 100vw;
+    height: 260px;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+`;
+
+const HeroImage = styled.img`
+  width: 380px;
+  max-width: 45vw;
+  height: auto;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 40px rgba(30,30,60,0.13);
+  border: 2px solid #fff;
+  background: #fff;
+  object-fit: cover;
+  @media (max-width: 900px) {
+    width: 90vw;
+    max-width: 90vw;
+    height: 240px;
+    border-radius: 1.2rem;
+  }
+`;
+
+const HeroOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.88) 60%, rgba(255,255,255,0.38) 100%);
+  pointer-events: none;
+  z-index: 1;
+  @media (max-width: 900px) {
+    background: linear-gradient(180deg, rgba(255,255,255,0.92) 60%, rgba(255,255,255,0.4) 100%);
   }
 `;
 
@@ -117,6 +171,10 @@ const Home = () => (
           We help hotels create unforgettable experiences for kids and teens. Our unique, research-driven concepts inspire, engage, and delight families worldwide.
         </HeroSubtitle>
       </HeroContent>
+      <HeroImageWrapper>
+        <HeroImage src="/hero image.png" alt="Wanderland Studio Hero" />
+        <HeroOverlay />
+      </HeroImageWrapper>
     </HeroSection>
     <AboutSection id="about">
       <AboutSectionTitle>Who We Are</AboutSectionTitle>
