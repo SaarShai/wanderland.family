@@ -22,6 +22,12 @@ jobs:
       - name: Build site
         run: npm run build
 
+      - name: Copy static survey files to dist
+        run: |
+          cp subscription-survey.html dist/
+          cp subscription-survey.css dist/
+          cp subscription-survey.js dist/
+
       - name: Upload to Porkbun FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
