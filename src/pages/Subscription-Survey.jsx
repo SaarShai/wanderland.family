@@ -266,12 +266,6 @@ function SubscriptionSurvey() {
                       [q.key]: vals.filter((v) => !v.startsWith("Other"))
                         .concat(["Other: " + e.target.value]),
                     }));
-                    saveToSheet({
-                      ...answers,
-                      [q.key + "_other"]: e.target.value,
-                      [q.key]: vals.filter((v) => !v.startsWith("Other"))
-                        .concat(["Other: " + e.target.value]),
-                    });
                   }}
                 />
               )}
@@ -308,14 +302,13 @@ function SubscriptionSurvey() {
         <div className="survey-question" ref={scrollRef}>
           <div className="survey-label survey-question-label">{q.label}</div>
           <textarea
-  value={val}
-  onChange={(e) => {
-    setAnswers((prev) => ({ ...prev, [q.key]: e.target.value }));
-    saveToSheet({ ...answers, [q.key]: e.target.value });
-  }}
-  rows={3}
-  className="survey-input survey-answer"
-/>
+            value={val}
+            onChange={(e) => {
+              setAnswers((prev) => ({ ...prev, [q.key]: e.target.value }));
+            }}
+            rows={3}
+            className="survey-input survey-answer"
+          />
         </div>
       );
     }
