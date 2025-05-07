@@ -129,15 +129,38 @@ function renderSurvey() {
   const qDiv = document.getElementById('survey-questions');
   qDiv.innerHTML = '';
 
-  // Group the first four questions (group type) in one white box
+  // Render the top intro box with image
+  const introBox = document.createElement('div');
+  introBox.className = 'survey-intro-flex';
+
+  // Left: text (75%)
+  const introText = document.createElement('div');
+  introText.className = 'survey-intro-text';
+  introText.innerHTML = `<div class="survey-intro-maintext">
+  Monthly Subscription Box - a monthly kids and teens amenities, gifts and activities subscription box, adapting to season, holidays, themes, and peak weeks.<br>
+  Kids Consultancy Subscription - family guest strategy, brand partnership opportunities, expertise, insights and digital assets
+  <br><br>
+  <span class="section-title">🎁 Monthly Subscription Box</span><br>
+  Segmented by age range and gender, our monthly deliveries will cover you for your welcome amenities, birthday treats, VIP & loyal guests or rainy day ‘stay and play’.<br><br>
+  Providing the right gift at the right time can be the making of a holiday.<br><br>
+  Our kids and teen expertise, network of leading partners from the world of toys and games, and ‘family play’ know-how, will help your team to delight kids from 18 months - 18 years, and their parents too.<br><br>
+  <span class="section-title">🛎️ Kids Consultancy Subscription</span><br>
+  We are your ‘in-house team’ or your ‘one-stop shop’ for everything related to families, kids and teens. Industry data, competitive round-ups, marketing opportunities, digital content, best practice and workshops.
+  </div>`;
+  introBox.appendChild(introText);
+  // Right: image (25%)
+  const img = document.createElement('img');
+  img.src = 'survey-box-image.jpg';
+  img.alt = '';
+  img.className = 'survey-grouped-img';
+  introBox.appendChild(img);
+  qDiv.appendChild(introBox);
+
+  // Group the first four questions (group type) in one white box, no image
   const groupQ = QUESTIONS[0];
   const groupBox = document.createElement('div');
   groupBox.className = 'survey-grouped-info';
   groupBox.id = 'survey-grouped-info';
-
-  // Left: text fields (75%)
-  const fieldsDiv = document.createElement('div');
-  fieldsDiv.className = 'survey-grouped-info-fields';
   groupQ.fields.forEach(f => {
     let inp = document.createElement('input');
     inp.type = 'text';
@@ -145,15 +168,8 @@ function renderSurvey() {
     inp.className = 'survey-input';
     inp.value = answers[f.key] || '';
     inp.oninput = e => { answers[f.key] = e.target.value; saveToSheet(); };
-    fieldsDiv.appendChild(inp);
+    groupBox.appendChild(inp);
   });
-  groupBox.appendChild(fieldsDiv);
-  // Right: image (25%)
-  const img = document.createElement('img');
-  img.src = 'survey-box-image.jpg';
-  img.alt = '';
-  img.className = 'survey-grouped-img';
-  groupBox.appendChild(img);
   qDiv.appendChild(groupBox);
 
   // Render each remaining question as its own .survey-step
