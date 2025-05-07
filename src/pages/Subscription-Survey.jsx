@@ -149,39 +149,23 @@ function SubscriptionSurvey() {
     }
   }, [step]);
 
-  const handleInput = async (fieldKey, value) => {
+  const handleInput = (fieldKey, value) => {
     setAnswers((prev) => ({ ...prev, [fieldKey]: value }));
     if (fieldKey === "Name") setNameValue(value);
-    await saveToSheet({ ...answers, [fieldKey]: value });
   };
 
-  const handleGroupInput = async (fields) => {
+  const handleGroupInput = (fields) => {
     const newAnswers = { ...answers };
     fields.forEach(({ key, value }) => {
       newAnswers[key] = value;
       if (key === "Name") setNameValue(value);
     });
     setAnswers(newAnswers);
-    await saveToSheet(newAnswers);
   };
-
-  async function saveToSheet(data) {
-    const payload = { ...data, sessionId: getSessionId() };
-    try {
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: { "Content-Type": "application/json" },
-      });
-    } catch (e) {
-      setError("Could not save to Google Sheet. Please try again later.");
-    }
-  }
 
   const handleNext = async (groupValues) => {
     setError("");
     if (QUESTIONS[step].type === "group") {
-      // Validate all fields filled
       let allFilled = true;
       QUESTIONS[step].fields.forEach((f, idx) => {
         if (!groupValues[idx]) allFilled = false;
@@ -190,22 +174,37 @@ function SubscriptionSurvey() {
         setError("Please fill out all fields.");
         return;
       }
-      await handleGroupInput(
+      handleGroupInput(
         QUESTIONS[step].fields.map((f, idx) => ({ key: f.key, value: groupValues[idx] }))
       );
     }
     setStep((s) => Math.min(s + 1, QUESTIONS.length));
   };
+
   const handlePrev = () => setStep((s) => Math.max(s - 1, 0));
 
   const handleSend = async () => {
     setSending(true);
-    await saveToSheet(answers);
+    setError("");
+    try {
+      const payload = { ...answers, sessionId: getSessionId() };
+      const res = await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" },
+      });
+      const result = await res.json();
+      if (result.result === "success") {
+        setSent(true);
+      } else {
+        setError("Could not submit your response. Please try again later.");
+      }
+    } catch (e) {
+      setError("Could not submit your response. Please try again later.");
+    }
     setSending(false);
-    setSent(true);
   };
 
-  // Render logic for each question type
   function renderQuestion(q, idx) {
     if (q.type === "group") {
       const vals = q.fields.map((f) => answers[f.key] || "");
