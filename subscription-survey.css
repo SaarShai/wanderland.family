@@ -147,33 +147,6 @@ body {
   .survey-intro-text {
     padding: 1.5rem 0.7rem 1.2rem 1.2rem;
     font-size: 1.01rem;
-  }
-  .survey-grouped-img {
-    min-width: 44px;
-    max-width: 80px;
-  }
-}
-@media (max-width: 750px) {
-  .survey-intro-flex {
-    flex-direction: column;
-    min-height: unset;
-  }
-  .survey-grouped-img {
-    width: 100%;
-    height: 160px;
-    border-radius: 0 0 18px 18px;
-    border-top-right-radius: 0;
-    border-bottom-left-radius: 0;
-    object-fit: cover;
-  }
-  .survey-intro-text {
-    padding: 1.5rem 1rem 1rem 1rem;
-    text-align: center;
-  }
-  .survey-intro-maintext {
-    text-align: center;
-  }
-}
 
 .survey-grouped-info.visible {
   opacity: 1;
