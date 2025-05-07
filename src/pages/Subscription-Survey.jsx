@@ -102,7 +102,11 @@ const QUESTIONS = [
   },
 ];
 
+// IMPORTANT: Only show errors on final submit, never during input
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqh23Y6SgkCDSV1Ln4lypNud6BR3gZw-ZzLO_0q5Jr9-LhuetiLBocsTVf43rFRYTr/exec";
+
+// Global variable to track if we're in the final submit process
+let isSubmitting = false;
 
 function getSessionId() {
   let id = localStorage.getItem("subscriptionSurveySessionId");
@@ -139,24 +143,21 @@ function SubscriptionSurvey() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const [nameValue, setNameValue] = useState("");
-  const [error, setError] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
+  const [submitError, setSubmitError] = useState(""); // Only used for final submit errors
+  const [validationError, setValidationError] = useState(""); // Only used for validation errors
   const scrollRef = useRef(null);
   
   // Debug error state changes
   useEffect(() => {
-    if (error) {
-      console.log("ERROR STATE CHANGED:", error);
-    }
-  }, [error]);
+    console.log("SUBMIT ERROR CHANGED:", submitError);
+  }, [submitError]);
   
-  // Clear error if typing
+  // Reset errors on any state change
   useEffect(() => {
-    if (isTyping) {
-      setError("");
-      setIsTyping(false);
+    if (!isSubmitting) {
+      setSubmitError("");
     }
-  }, [isTyping]);
+  }, [answers, step]);
 
   // For scroll/gradient effect
   useEffect(() => {
@@ -180,15 +181,14 @@ function SubscriptionSurvey() {
   };
 
   const handleNext = async (groupValues) => {
-    setIsTyping(true);
-    setError("");
+    // Only validate group fields
     if (QUESTIONS[step].type === "group") {
       let allFilled = true;
       QUESTIONS[step].fields.forEach((f, idx) => {
         if (!groupValues[idx]) allFilled = false;
       });
       if (!allFilled) {
-        setError("Please fill out all fields.");
+        setValidationError("Please fill out all fields.");
         return;
       }
       handleGroupInput(
@@ -199,14 +199,20 @@ function SubscriptionSurvey() {
   };
 
   const handlePrev = () => {
-    setIsTyping(true);
-    setError("");
+    // Reset any errors
+    setValidationError("");
+    setSubmitError("");
     setStep((s) => Math.max(s - 1, 0));
   };
 
   const handleSend = async () => {
     setSending(true);
-    setError("");
+    setValidationError("");
+    setSubmitError("");
+    
+    // Set global flag that we're in submit process
+    isSubmitting = true;
+    
     try {
       const payload = { ...answers, sessionId: getSessionId() };
       const res = await fetch(GOOGLE_SCRIPT_URL, {
@@ -218,12 +224,15 @@ function SubscriptionSurvey() {
       if (result.result === "success") {
         setSent(true);
       } else {
-        setError("Could not submit your response. Please try again later."); // Only in handleSend
+        setSubmitError("Could not submit your response. Please try again later.");
       }
     } catch (e) {
-      setError("Could not submit your response. Please try again later."); // Only in handleSend
+      setSubmitError("Could not submit your response. Please try again later.");
     }
+    
     setSending(false);
+    // Reset global flag
+    isSubmitting = false;
   };
 
   function renderQuestion(q, idx) {
@@ -239,8 +248,7 @@ function SubscriptionSurvey() {
               placeholder={f.label}
               value={vals[i]}
               onChange={(e) => {
-                setIsTyping(true);
-                setError("");
+                // No error handling during input
                 const newVals = [...vals];
                 newVals[i] = e.target.value;
                 handleGroupInput(q.fields.map((ff, idx) => ({ key: ff.key, value: newVals[idx] })));
@@ -263,8 +271,7 @@ function SubscriptionSurvey() {
                 type="checkbox"
                 checked={vals.includes(opt)}
                 onChange={(e) => {
-                  setIsTyping(true);
-                  setError("");
+                  // No error handling during input
                   let newVals = vals.includes(opt)
                     ? vals.filter((v) => v !== opt)
                     : [...vals, opt];
@@ -283,8 +290,7 @@ function SubscriptionSurvey() {
                   value={answers[q.key + "_other"] || ""}
                   className="survey-input survey-other-input survey-answer"
                   onChange={(e) => {
-                    setIsTyping(true);
-                    setError("");
+                    // No error handling during input
                     setAnswers((prev) => ({
                       ...prev,
                       [q.key + "_other"]: e.target.value,
@@ -310,8 +316,7 @@ function SubscriptionSurvey() {
                 type="radio"
                 checked={val === opt}
                 onChange={(e) => {
-                  setIsTyping(true);
-                  setError("");
+                  // No error handling during input
                   setAnswers((prev) => ({ ...prev, [q.key]: e.target.value }));
                 }}
                 className="survey-answer"
@@ -330,8 +335,7 @@ function SubscriptionSurvey() {
           <textarea
             value={val}
             onChange={(e) => {
-              setIsTyping(true);
-              setError("");
+              // No error handling during input
               setAnswers((prev) => ({ ...prev, [q.key]: e.target.value }));
             }}
             rows={3}
@@ -384,7 +388,8 @@ function SubscriptionSurvey() {
             }}>Next</button>
           )}
         </div>
-        {error && !isTyping && <div className="survey-error">{error}</div>}
+        {validationError && <div className="survey-error">{validationError}</div>}
+        {submitError && <div className="survey-error">{submitError}</div>}
       </div>
     </div>
   );
