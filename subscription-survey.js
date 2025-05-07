@@ -133,14 +133,6 @@ function renderSurvey() {
   const introSection = document.createElement('div');
   introSection.className = 'survey-intro-section';
   introSection.innerHTML = `<div class="survey-lead">To receive a quote, please let us know...</div>`;
-  const introArrow = document.createElement('button');
-  introArrow.type = 'button';
-  introArrow.className = 'scroll-next-btn';
-  introArrow.innerHTML = '&#8595;';
-  introArrow.onclick = function() {
-    document.getElementById('survey-step-0').scrollIntoView({behavior:'smooth', block:'start'});
-  };
-  introSection.appendChild(introArrow);
   qDiv.appendChild(introSection);
 
   // Render all questions as stacked sections
@@ -240,9 +232,36 @@ function renderSurvey() {
     }
     qDiv.appendChild(step);
   });
+
+  // Animate steps on scroll
+  const observer = new window.IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.survey-step').forEach(el => observer.observe(el));
+
+  // Progress bar
+  let progressBar = document.querySelector('.progress-bar');
+  if (!progressBar) {
+    progressBar = document.createElement('div');
+    progressBar.className = 'progress-bar';
+    document.body.appendChild(progressBar);
+  }
+  window.addEventListener('scroll', function() {
+    const steps = Array.from(document.querySelectorAll('.survey-step'));
+    const winH = window.innerHeight;
+    let progress = 0;
+    steps.forEach((step, i) => {
+      const rect = step.getBoundingClientRect();
+      if (rect.top < winH * 0.85) progress = i + 1;
+    });
+    const percent = Math.max(2, Math.round((progress / steps.length) * 100));
+    progressBar.style.width = percent + '%';
+  });
 }
-
-
 
 function validateStep(idx) {
   const q = QUESTIONS[idx];
