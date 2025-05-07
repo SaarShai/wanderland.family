@@ -214,19 +214,55 @@ function SubscriptionSurvey() {
     isSubmitting = true;
     
     try {
-      const payload = { ...answers, sessionId: getSessionId() };
+      // Format data for Google Apps Script
+      const payload = { ...answers, sessionId: getSessionId(), timestamp: new Date().toISOString() };
+      
+      // Debug what we're sending
+      console.log("Sending data to Google Script:", payload);
+      console.log("Google Script URL:", GOOGLE_SCRIPT_URL);
+      
+      // Google Apps Script expects form data or URL parameters, not JSON
+      // Let's try with URLSearchParams instead
+      const formData = new URLSearchParams();
+      // Add each field to the form data
+      for (const key in payload) {
+        if (Array.isArray(payload[key])) {
+          // Handle arrays (like checkbox selections)
+          formData.append(key, payload[key].join(", "));
+        } else {
+          formData.append(key, payload[key] || "");
+        }
+      }
+      
       const res = await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
-        body: JSON.stringify(payload),
-        headers: { "Content-Type": "application/json" },
+        body: formData,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
       });
-      const result = await res.json();
-      if (result.result === "success") {
+      
+      // Debug the response
+      const responseText = await res.text();
+      console.log("Response from Google Script:", responseText);
+      
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error("Failed to parse response as JSON:", responseText);
+        throw new Error("Invalid response format");
+      }
+      
+      if (result && result.result === "success") {
+        console.log("Submission successful!");
         setSent(true);
       } else {
+        console.error("Submission failed:", result);
         setSubmitError("Could not submit your response. Please try again later.");
       }
     } catch (e) {
+      console.error("Error during submission:", e);
       setSubmitError("Could not submit your response. Please try again later.");
     }
     
