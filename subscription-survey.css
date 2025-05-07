@@ -105,56 +105,41 @@ body {
   gap: 0;
 }
 
-.survey-intro-flex {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
+.survey-grouped-info {
   background: #fff;
   border-radius: 18px;
   box-shadow: 0 4px 18px rgba(69,123,157,0.13);
+  padding: 0;
   margin-bottom: 2.3rem;
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s cubic-bezier(.4,2,.6,1), transform 0.7s cubic-bezier(.4,2,.6,1);
+  will-change: opacity, transform;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  min-height: 220px;
   overflow: hidden;
-  min-height: 180px;
 }
-.survey-grouped-img {
-  flex: 0 0 20%;
-  width: 20%;
-  min-width: 60px;
-  max-width: 120px;
-  object-fit: cover;
-  height: 100%;
-  border-top-left-radius: 18px;
-  border-bottom-left-radius: 18px;
-  display: block;
-  align-self: stretch;
-}
-.survey-intro-text {
-  flex: 1 1 80%;
-  padding: 2.2rem 1.1rem 1.7rem 1.7rem;
+.survey-grouped-info-fields {
+  flex: 0 1 75%;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: right;
-  font-family: 'Scala', serif;
-  font-size: 1.07rem;
 }
-.survey-intro-maintext {
-  text-align: right;
-  text-justify: inter-word;
-  color: #1d3557;
-}
-@media (max-width: 1100px) {
-  .survey-intro-text {
-    padding: 1.5rem 0.7rem 1.2rem 1.2rem;
-    font-size: 1.01rem;
-  }
-  .survey-grouped-img {
-    min-width: 44px;
-    max-width: 80px;
-  }
+.survey-grouped-img {
+  flex: 0 0 25%;
+  width: 25%;
+  object-fit: cover;
+  height: 100%;
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+  display: block;
+  align-self: stretch;
 }
 @media (max-width: 750px) {
-  .survey-intro-flex {
+  .survey-grouped-info {
     flex-direction: column;
     min-height: unset;
   }
@@ -166,14 +151,11 @@ body {
     border-bottom-left-radius: 0;
     object-fit: cover;
   }
-  .survey-intro-text {
+  .survey-grouped-info-fields {
     padding: 1.5rem 1rem 1rem 1rem;
-    text-align: center;
-  }
-  .survey-intro-maintext {
-    text-align: center;
   }
 }
+
 
 .survey-grouped-info.visible {
   opacity: 1;
