@@ -126,29 +126,42 @@ function showStep(idx) {
 }
 
 function renderSurvey() {
-  const stepsDiv = document.getElementById('survey-steps');
-  stepsDiv.innerHTML = '';
-  QUESTIONS.forEach((q, idx) => {
+  // Render sticky info fields (first 4 fields)
+  const stickyDiv = document.getElementById('sticky-info');
+  stickyDiv.innerHTML = '';
+  const group = QUESTIONS[0];
+  if (group.lead) {
+    let lead = document.createElement('div');
+    lead.className = 'survey-lead';
+    lead.textContent = group.lead;
+    stickyDiv.appendChild(lead);
+  }
+  group.fields.forEach(f => {
+    let inp = document.createElement('input');
+    inp.type = 'text';
+    inp.placeholder = f.label;
+    inp.className = 'survey-input';
+    inp.value = answers[f.key] || '';
+    inp.oninput = e => { answers[f.key] = e.target.value; saveToSheet(); };
+    stickyDiv.appendChild(inp);
+  });
+
+  // Render all other questions as stacked sections
+  const qDiv = document.getElementById('survey-questions');
+  qDiv.innerHTML = '';
+  QUESTIONS.slice(1).forEach((q, idx) => {
     let step = document.createElement('div');
     step.className = 'survey-step';
-    if (idx === 0) step.classList.add('active');
-    if (q.type === 'group') {
-      if (q.lead) {
-        let lead = document.createElement('div');
-        lead.className = 'survey-lead';
-        lead.textContent = q.lead;
-        step.appendChild(lead);
-      }
-      q.fields.forEach(f => {
-        let inp = document.createElement('input');
-        inp.type = 'text';
-        inp.placeholder = f.label;
-        inp.className = 'survey-input';
-        inp.value = answers[f.key] || '';
-        inp.oninput = e => { answers[f.key] = e.target.value; };
-        step.appendChild(inp);
-      });
-    } else if (q.type === 'checkbox' || q.type === 'checkbox+other') {
+    step.id = 'survey-step-' + (idx+1);
+    // Fade overlays
+    let fadeTop = document.createElement('div');
+    fadeTop.className = 'survey-fade-top';
+    step.appendChild(fadeTop);
+    let fadeBottom = document.createElement('div');
+    fadeBottom.className = 'survey-fade-bottom';
+    step.appendChild(fadeBottom);
+    // Question content
+    if (q.type === 'checkbox' || q.type === 'checkbox+other') {
       let label = document.createElement('div');
       label.className = 'survey-label';
       label.textContent = q.label;
@@ -168,6 +181,7 @@ function renderSurvey() {
             if (opt === 'Other') answers[q.key + '_other'] = '';
           }
           answers[q.key] = arr;
+          saveToSheet();
         };
         lab.appendChild(cb);
         lab.appendChild(document.createTextNode(opt));
@@ -180,6 +194,7 @@ function renderSurvey() {
           txt.oninput = e => {
             answers[q.key + '_other'] = e.target.value;
             answers[q.key] = (answers[q.key] || []).filter(v => !v.startsWith('Other: ')).concat([`Other: ${e.target.value}`]);
+            saveToSheet();
           };
           lab.appendChild(txt);
         }
@@ -197,7 +212,7 @@ function renderSurvey() {
         rb.type = 'radio';
         rb.name = q.key;
         rb.checked = answers[q.key] === opt;
-        rb.onchange = () => { answers[q.key] = opt; };
+        rb.onchange = () => { answers[q.key] = opt; saveToSheet(); };
         lab.appendChild(rb);
         lab.appendChild(document.createTextNode(opt));
         step.appendChild(lab);
@@ -210,13 +225,25 @@ function renderSurvey() {
       let ta = document.createElement('textarea');
       ta.className = 'survey-textarea';
       ta.value = answers[q.key] || '';
-      ta.oninput = e => { answers[q.key] = e.target.value; };
+      ta.oninput = e => { answers[q.key] = e.target.value; saveToSheet(); };
       ta.rows = 3;
       step.appendChild(ta);
     }
-    stepsDiv.appendChild(step);
+    // Add scroll-down button
+    if (idx < QUESTIONS.length - 2) {
+      let nextBtn = document.createElement('button');
+      nextBtn.type = 'button';
+      nextBtn.className = 'scroll-next-btn';
+      nextBtn.innerHTML = 'Next &#8595;';
+      nextBtn.onclick = function() {
+        document.getElementById('survey-step-' + (idx+2)).scrollIntoView({behavior:'smooth', block:'start'});
+      };
+      step.appendChild(nextBtn);
+    }
+    qDiv.appendChild(step);
   });
 }
+
 
 function validateStep(idx) {
   const q = QUESTIONS[idx];
