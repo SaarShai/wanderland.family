@@ -181,7 +181,10 @@ function SubscriptionSurvey() {
     setStep((s) => Math.min(s + 1, QUESTIONS.length));
   };
 
-  const handlePrev = () => setStep((s) => Math.max(s - 1, 0));
+  const handlePrev = () => {
+    setError("");
+    setStep((s) => Math.max(s - 1, 0));
+  };
 
   const handleSend = async () => {
     setSending(true);
@@ -218,6 +221,7 @@ function SubscriptionSurvey() {
               placeholder={f.label}
               value={vals[i]}
               onChange={(e) => {
+                setError("");
                 const newVals = [...vals];
                 newVals[i] = e.target.value;
                 handleGroupInput(q.fields.map((ff, idx) => ({ key: ff.key, value: newVals[idx] })));
@@ -241,6 +245,7 @@ function SubscriptionSurvey() {
                 type="checkbox"
                 checked={vals.includes(opt)}
                 onChange={(e) => {
+                  setError("");
                   let newVals = vals.includes(opt)
                     ? vals.filter((v) => v !== opt)
                     : [...vals, opt];
@@ -248,7 +253,6 @@ function SubscriptionSurvey() {
                     newVals = newVals.filter((v) => v !== "Other: " + (answers[q.key + "_other"] || ""));
                   }
                   setAnswers((prev) => ({ ...prev, [q.key]: newVals }));
-                  saveToSheet({ ...answers, [q.key]: newVals });
                 }}
                 className="survey-answer"
               />
@@ -260,6 +264,7 @@ function SubscriptionSurvey() {
                   value={answers[q.key + "_other"] || ""}
                   className="survey-input survey-other-input survey-answer"
                   onChange={(e) => {
+                    setError("");
                     setAnswers((prev) => ({
                       ...prev,
                       [q.key + "_other"]: e.target.value,
@@ -285,6 +290,7 @@ function SubscriptionSurvey() {
                 type="radio"
                 checked={val === opt}
                 onChange={(e) => {
+                  setError("");
                   setAnswers((prev) => ({ ...prev, [q.key]: e.target.value }));
                 }}
                 className="survey-answer"
@@ -303,6 +309,7 @@ function SubscriptionSurvey() {
           <textarea
             value={val}
             onChange={(e) => {
+              setError("");
               setAnswers((prev) => ({ ...prev, [q.key]: e.target.value }));
             }}
             rows={3}
