@@ -120,13 +120,13 @@ const IntroSection = () => (
       1. Monthly Subscription Box - a monthly kids and teens amenities, gifts and activities subscription box, adapting to season, holidays, themes, and peak weeks.<br/>
       2. Kids Consultancy Subscription - family guest strategy, brand partnership opportunities, expertise, insights and digital assets
     </p>
-    <h2>Monthly Subscription Box</h2>
+    <h2 className="survey-special-title">🎁 Monthly Subscription Box</h2>
     <p>
       Segmented by age range and gender, our monthly deliveries will cover you for your welcome amenities, birthday treats, VIP & loyal guests or rainy day ‘stay and play’.<br/><br/>
       Providing the right gift at the right time can be the making of a holiday.<br/><br/>
       Our kids and teen expertise, network of leading partners from the world of toys and games, and ‘family play’ know-how, will help your team to delight kids from 18 months - 18 years, and their parents too.
     </p>
-    <h2>Kids Consultancy Subscription</h2>
+    <h2 className="survey-special-title">🛎️ Kids Consultancy Subscription</h2>
     <p>
       We are your ‘in-house team’ or your ‘one-stop shop’ for everything related to families, kids and teens. Industry data, competitive round-ups, marketing opportunities, digital content, best practice and workshops.
     </p>
@@ -223,7 +223,7 @@ function SubscriptionSurvey() {
                 newVals[i] = e.target.value;
                 handleGroupInput(q.fields.map((ff, idx) => ({ key: ff.key, value: newVals[idx] })));
               }}
-              className="survey-input"
+              className="survey-input survey-answer"
             />
           ))}
           <button className="survey-next" onClick={() => handleNext(vals)}>&#8595;</button>
@@ -235,7 +235,7 @@ function SubscriptionSurvey() {
       const isOther = q.type === "checkbox+other";
       return (
         <div className="survey-question" ref={scrollRef}>
-          <div className="survey-label">{q.label}</div>
+          <div className="survey-label survey-question-label">{q.label}</div>
           {q.options.map((opt, i) => (
             <label key={opt} className="survey-checkbox-label">
               <input
@@ -251,14 +251,15 @@ function SubscriptionSurvey() {
                   setAnswers((prev) => ({ ...prev, [q.key]: newVals }));
                   saveToSheet({ ...answers, [q.key]: newVals });
                 }}
+                className="survey-answer"
               />
               {opt}
               {isOther && opt === "Other" && vals.includes("Other") && (
                 <input
                   type="text"
                   placeholder="Please specify"
-                  className="survey-input survey-other-input"
                   value={answers[q.key + "_other"] || ""}
+                  className="survey-input survey-other-input survey-answer"
                   onChange={(e) => {
                     setAnswers((prev) => ({
                       ...prev,
@@ -284,7 +285,7 @@ function SubscriptionSurvey() {
       const val = answers[q.key] || "";
       return (
         <div className="survey-question" ref={scrollRef}>
-          <div className="survey-label">{q.label}</div>
+          <div className="survey-label survey-question-label">{q.label}</div>
           {q.options.map((opt) => (
             <label key={opt} className="survey-radio-label">
               <input
@@ -294,6 +295,7 @@ function SubscriptionSurvey() {
                   setAnswers((prev) => ({ ...prev, [q.key]: opt }));
                   saveToSheet({ ...answers, [q.key]: opt });
                 }}
+                className="survey-answer"
               />
               {opt}
             </label>
@@ -305,16 +307,16 @@ function SubscriptionSurvey() {
       const val = answers[q.key] || "";
       return (
         <div className="survey-question" ref={scrollRef}>
-          <div className="survey-label">{q.label}</div>
+          <div className="survey-label survey-question-label">{q.label}</div>
           <textarea
-            className="survey-input"
-            value={val}
-            onChange={(e) => {
-              setAnswers((prev) => ({ ...prev, [q.key]: e.target.value }));
-              saveToSheet({ ...answers, [q.key]: e.target.value });
-            }}
-            rows={3}
-          />
+  value={val}
+  onChange={(e) => {
+    setAnswers((prev) => ({ ...prev, [q.key]: e.target.value }));
+    saveToSheet({ ...answers, [q.key]: e.target.value });
+  }}
+  rows={3}
+  className="survey-input survey-answer"
+/>
         </div>
       );
     }

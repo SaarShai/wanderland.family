@@ -149,11 +149,7 @@ function renderSurvey() {
   });
   groupBox.appendChild(fieldsDiv);
   // Right: image (25%)
-  const img = document.createElement('img');
-  img.src = 'survey-box-image.jpg';
-  img.alt = '';
-  img.className = 'survey-grouped-img';
-  groupBox.appendChild(img);
+
   qDiv.appendChild(groupBox);
 
   // Render each remaining question as its own .survey-step
