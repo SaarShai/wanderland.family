@@ -129,11 +129,17 @@ function renderSurvey() {
   const qDiv = document.getElementById('survey-questions');
   qDiv.innerHTML = '';
 
-  // Render the top intro box with image
+  // Render the top intro section with image (image left, text right, left-aligned)
   const introBox = document.createElement('div');
   introBox.className = 'survey-intro-flex';
 
-  // Left: text (75%)
+  // Left: image (20%)
+  const img = document.createElement('img');
+  img.src = 'survey-box-image.jpg';
+  img.alt = '';
+  img.className = 'survey-grouped-img';
+  introBox.appendChild(img);
+  // Right: text (80%)
   const introText = document.createElement('div');
   introText.className = 'survey-intro-text';
   introText.innerHTML = `<div class="survey-intro-maintext">
@@ -148,19 +154,13 @@ function renderSurvey() {
   We are your ‘in-house team’ or your ‘one-stop shop’ for everything related to families, kids and teens. Industry data, competitive round-ups, marketing opportunities, digital content, best practice and workshops.
   </div>`;
   introBox.appendChild(introText);
-  // Right: image (25%)
-  const img = document.createElement('img');
-  img.src = 'survey-box-image.jpg';
-  img.alt = '';
-  img.className = 'survey-grouped-img';
-  introBox.appendChild(img);
   qDiv.appendChild(introBox);
 
-  // Group the first four questions (group type) in one white box, no image
+  // Group the first four questions (group type) in one white/shadowed box
   const groupQ = QUESTIONS[0];
   const groupBox = document.createElement('div');
-  groupBox.className = 'survey-grouped-info';
-  groupBox.id = 'survey-grouped-info';
+  groupBox.className = 'survey-step';
+  groupBox.id = 'survey-step-0';
   groupQ.fields.forEach(f => {
     let inp = document.createElement('input');
     inp.type = 'text';

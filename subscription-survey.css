@@ -134,12 +134,12 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: right;
+  text-align: left;
   font-family: 'Scala', serif;
   font-size: 1.07rem;
 }
 .survey-intro-maintext {
-  text-align: right;
+  text-align: left;
   text-justify: inter-word;
   color: #1d3557;
 }
