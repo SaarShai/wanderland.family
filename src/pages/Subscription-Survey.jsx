@@ -102,7 +102,7 @@ const QUESTIONS = [
   },
 ];
 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwVndq1yxWALDDgleJENxntOSF6ClR9TH9CpJwx58uEI261jZq6vJqP3jILu_nb3eev/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzehGE03ycfTPWI-3SK38i8nXZH-n-vvfjqad-DhmkQ7yP4hvvNLc1wax7t0IKM11_i/exec";
 
 function getSessionId() {
   let id = localStorage.getItem("subscriptionSurveySessionId");
