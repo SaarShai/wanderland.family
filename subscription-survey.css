@@ -25,7 +25,7 @@ body {
   padding: 0 0 60px 0;
 }
 
-.survey-intro {
+.survey-title-box {
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -33,25 +33,25 @@ body {
   border-radius: 18px;
   box-shadow: 0 4px 18px rgba(69,123,157,0.13);
   padding: 0;
-  margin-bottom: 2.3rem;
+  margin-bottom: 1.5rem;
   overflow: hidden;
-  min-height: 180px;
+  min-height: 120px;
 }
-.survey-intro-content {
+.survey-title-content {
   flex: 0 1 75%;
-  padding: 2.2rem 1.7rem 1.7rem 1.7rem;
+  padding: 1.3rem 1.5rem 1.3rem 1.7rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: left;
   font-family: 'Scala', serif;
-  font-size: 1.09rem;
+  font-size: 1.25rem;
 }
-.survey-intro-img {
+.survey-title-logo {
   flex: 0 0 25%;
   width: 25%;
-  min-width: 80px;
-  max-width: 220px;
+  min-width: 60px;
+  max-width: 160px;
   object-fit: cover;
   height: 100%;
   border-top-right-radius: 18px;
@@ -59,6 +59,17 @@ body {
   display: block;
   align-self: stretch;
 }
+.survey-intro-box {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(69,123,157,0.13);
+  padding: 1.7rem 1.7rem 1.7rem 1.7rem;
+  margin-bottom: 2.3rem;
+  text-align: left;
+  font-family: 'Scala', serif;
+  font-size: 1.09rem;
+}
+
 .wanderland-logo {
   width: 54px;
   max-width: 380px;
@@ -71,6 +82,8 @@ body {
   font-weight: bold;
   color: #1d3557;
   text-align: center;
+}
+
   margin-bottom: 0.3rem;
   letter-spacing: 0.01em;
 }
