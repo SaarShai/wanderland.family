@@ -233,11 +233,13 @@ function renderSurvey() {
     qDiv.appendChild(step);
   });
 
-  // Animate steps on scroll
+  // Animate steps on scroll (react to both up and down)
   const observer = new window.IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+      } else {
+        entry.target.classList.remove('visible');
       }
     });
   }, { threshold: 0.1 });
