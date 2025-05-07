@@ -197,10 +197,10 @@ function SubscriptionSurvey() {
       if (result.result === "success") {
         setSent(true);
       } else {
-        setError("Could not submit your response. Please try again later.");
+        setError("Could not submit your response. Please try again later."); // Only in handleSend
       }
     } catch (e) {
-      setError("Could not submit your response. Please try again later.");
+      setError("Could not submit your response. Please try again later."); // Only in handleSend
     }
     setSending(false);
   };
@@ -284,9 +284,8 @@ function SubscriptionSurvey() {
               <input
                 type="radio"
                 checked={val === opt}
-                onChange={() => {
-                  setAnswers((prev) => ({ ...prev, [q.key]: opt }));
-                  saveToSheet({ ...answers, [q.key]: opt });
+                onChange={(e) => {
+                  setAnswers((prev) => ({ ...prev, [q.key]: e.target.value }));
                 }}
                 className="survey-answer"
               />
