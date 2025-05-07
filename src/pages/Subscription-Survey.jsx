@@ -353,7 +353,10 @@ function SubscriptionSurvey() {
             <button className="survey-prev" onClick={handlePrev}>&#8593;</button>
           )}
           {step < QUESTIONS.length - 1 && (
-            <button className="survey-next" onClick={() => setStep((s) => Math.min(s + 1, QUESTIONS.length - 1))}>&#8595;</button>
+            <button className="survey-next" onClick={() => {
+              setError("");
+              setStep((s) => Math.min(s + 1, QUESTIONS.length - 1));
+            }}>&#8595;</button>
           )}
           {step === QUESTIONS.length - 1 && (
             <button className="survey-send" onClick={handleSend} disabled={sending}>
