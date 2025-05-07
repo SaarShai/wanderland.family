@@ -129,29 +129,40 @@ function renderSurvey() {
   const qDiv = document.getElementById('survey-questions');
   qDiv.innerHTML = '';
 
-  // Intro-to-form transition section
-  const introSection = document.createElement('div');
-  introSection.className = 'survey-intro-section';
-  introSection.innerHTML = `<div class="survey-lead">To receive a quote, please let us know...</div>`;
-  qDiv.appendChild(introSection);
+  // Group the first four questions (group type) in one white box
+  const groupQ = QUESTIONS[0];
+  const groupBox = document.createElement('div');
+  groupBox.className = 'survey-grouped-info';
+  groupBox.id = 'survey-grouped-info';
 
-  // Render all questions as stacked sections
-  QUESTIONS.forEach((q, idx) => {
+  // Left: text fields (75%)
+  const fieldsDiv = document.createElement('div');
+  fieldsDiv.className = 'survey-grouped-info-fields';
+  groupQ.fields.forEach(f => {
+    let inp = document.createElement('input');
+    inp.type = 'text';
+    inp.placeholder = f.label;
+    inp.className = 'survey-input';
+    inp.value = answers[f.key] || '';
+    inp.oninput = e => { answers[f.key] = e.target.value; saveToSheet(); };
+    fieldsDiv.appendChild(inp);
+  });
+  groupBox.appendChild(fieldsDiv);
+  // Right: image (25%)
+  const img = document.createElement('img');
+  img.src = 'survey-box-image.jpg';
+  img.alt = '';
+  img.className = 'survey-grouped-img';
+  groupBox.appendChild(img);
+  qDiv.appendChild(groupBox);
+
+  // Render each remaining question as its own .survey-step
+  QUESTIONS.slice(1).forEach((q, idx) => {
     let step = document.createElement('div');
     step.className = 'survey-step';
-    step.id = 'survey-step-' + idx;
+    step.id = 'survey-step-' + (idx+1);
     // Question content
-    if (q.type === 'group') {
-      q.fields.forEach(f => {
-        let inp = document.createElement('input');
-        inp.type = 'text';
-        inp.placeholder = f.label;
-        inp.className = 'survey-input';
-        inp.value = answers[f.key] || '';
-        inp.oninput = e => { answers[f.key] = e.target.value; saveToSheet(); };
-        step.appendChild(inp);
-      });
-    } else if (q.type === 'checkbox' || q.type === 'checkbox+other') {
+    if (q.type === 'checkbox' || q.type === 'checkbox+other') {
       let label = document.createElement('div');
       label.className = 'survey-label';
       label.textContent = q.label;
@@ -220,20 +231,20 @@ function renderSurvey() {
       step.appendChild(ta);
     }
     // Add scroll-down button except for last question
-    if (idx < QUESTIONS.length - 1) {
+    if (idx < QUESTIONS.length - 2) {
       let nextBtn = document.createElement('button');
       nextBtn.type = 'button';
       nextBtn.className = 'scroll-next-btn';
       nextBtn.innerHTML = 'Next &#8595;';
       nextBtn.onclick = function() {
-        document.getElementById('survey-step-' + (idx+1)).scrollIntoView({behavior:'smooth', block:'start'});
+        document.getElementById('survey-step-' + (idx+2)).scrollIntoView({behavior:'smooth', block:'start'});
       };
       step.appendChild(nextBtn);
     }
     qDiv.appendChild(step);
   });
 
-  // Animate steps on scroll (react to both up and down)
+  // Animate steps and group on scroll (react to both up and down)
   const observer = new window.IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -243,7 +254,7 @@ function renderSurvey() {
       }
     });
   }, { threshold: 0.1 });
-  document.querySelectorAll('.survey-step').forEach(el => observer.observe(el));
+  document.querySelectorAll('.survey-step, .survey-grouped-info').forEach(el => observer.observe(el));
 
   // Progress bar
   let progressBar = document.querySelector('.progress-bar');
