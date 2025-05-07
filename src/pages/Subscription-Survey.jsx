@@ -140,7 +140,23 @@ function SubscriptionSurvey() {
   const [sent, setSent] = useState(false);
   const [nameValue, setNameValue] = useState("");
   const [error, setError] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef(null);
+  
+  // Debug error state changes
+  useEffect(() => {
+    if (error) {
+      console.log("ERROR STATE CHANGED:", error);
+    }
+  }, [error]);
+  
+  // Clear error if typing
+  useEffect(() => {
+    if (isTyping) {
+      setError("");
+      setIsTyping(false);
+    }
+  }, [isTyping]);
 
   // For scroll/gradient effect
   useEffect(() => {
@@ -164,6 +180,7 @@ function SubscriptionSurvey() {
   };
 
   const handleNext = async (groupValues) => {
+    setIsTyping(true);
     setError("");
     if (QUESTIONS[step].type === "group") {
       let allFilled = true;
@@ -182,6 +199,7 @@ function SubscriptionSurvey() {
   };
 
   const handlePrev = () => {
+    setIsTyping(true);
     setError("");
     setStep((s) => Math.max(s - 1, 0));
   };
@@ -221,6 +239,7 @@ function SubscriptionSurvey() {
               placeholder={f.label}
               value={vals[i]}
               onChange={(e) => {
+                setIsTyping(true);
                 setError("");
                 const newVals = [...vals];
                 newVals[i] = e.target.value;
@@ -229,7 +248,6 @@ function SubscriptionSurvey() {
               className="survey-input survey-answer"
             />
           ))}
-          <button className="survey-next" onClick={() => handleNext(vals)}>&#8595;</button>
         </div>
       );
     }
@@ -245,6 +263,7 @@ function SubscriptionSurvey() {
                 type="checkbox"
                 checked={vals.includes(opt)}
                 onChange={(e) => {
+                  setIsTyping(true);
                   setError("");
                   let newVals = vals.includes(opt)
                     ? vals.filter((v) => v !== opt)
@@ -264,6 +283,7 @@ function SubscriptionSurvey() {
                   value={answers[q.key + "_other"] || ""}
                   className="survey-input survey-other-input survey-answer"
                   onChange={(e) => {
+                    setIsTyping(true);
                     setError("");
                     setAnswers((prev) => ({
                       ...prev,
@@ -290,6 +310,7 @@ function SubscriptionSurvey() {
                 type="radio"
                 checked={val === opt}
                 onChange={(e) => {
+                  setIsTyping(true);
                   setError("");
                   setAnswers((prev) => ({ ...prev, [q.key]: e.target.value }));
                 }}
@@ -309,6 +330,7 @@ function SubscriptionSurvey() {
           <textarea
             value={val}
             onChange={(e) => {
+              setIsTyping(true);
               setError("");
               setAnswers((prev) => ({ ...prev, [q.key]: e.target.value }));
             }}
@@ -349,22 +371,20 @@ function SubscriptionSurvey() {
       <div className="survey-container">
         {renderGradientSteps()}
         <div className="survey-nav">
-          {step > 0 && (
-            <button className="survey-prev" onClick={handlePrev}>&#8593;</button>
-          )}
-          {step < QUESTIONS.length - 1 && (
-            <button className="survey-next" onClick={() => {
-              setError("");
-              setStep((s) => Math.min(s + 1, QUESTIONS.length - 1));
-            }}>&#8595;</button>
-          )}
-          {step === QUESTIONS.length - 1 && (
+          {/* Navigation buttons removed as requested */}
+          {step === QUESTIONS.length - 1 ? (
             <button className="survey-send" onClick={handleSend} disabled={sending}>
               {sending ? "Sending..." : "Send"}
             </button>
+          ) : (
+            <button className="survey-next" onClick={() => {
+              setIsTyping(true);
+              setError("");
+              setStep((s) => Math.min(s + 1, QUESTIONS.length - 1));
+            }}>Next</button>
           )}
         </div>
-        {error && <div className="survey-error">{error}</div>}
+        {error && !isTyping && <div className="survey-error">{error}</div>}
       </div>
     </div>
   );
