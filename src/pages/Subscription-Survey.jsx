@@ -102,8 +102,8 @@ const QUESTIONS = [
   },
 ];
 
-// Formspree form ID - replace with your own form ID after signing up at formspree.io
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+// Formspree form ID for handling survey submissions
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mbloyawk";
 
 // Generate a unique session ID for tracking submissions
 function getSessionId() {
