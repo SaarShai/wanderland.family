@@ -136,6 +136,7 @@ const IntroSection = () => (
 );
 
 function SubscriptionSurvey() {
+  // Make sure step is initialized to 0 to show the first question
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [sending, setSending] = useState(false);
@@ -144,6 +145,13 @@ function SubscriptionSurvey() {
   const [submitError, setSubmitError] = useState(""); // Only used for final submit errors
   const [validationError, setValidationError] = useState(""); // Only used for validation errors
   const scrollRef = useRef(null);
+  
+  // Debug output to help diagnose the issue
+  useEffect(() => {
+    console.log("Current step:", step);
+    console.log("Questions length:", QUESTIONS.length);
+    console.log("Current question:", QUESTIONS[step]);
+  }, [step]);
   
   // Reset errors on any state change
   useEffect(() => {
@@ -354,9 +362,16 @@ function SubscriptionSurvey() {
 
   // Fading gradient effect (shows part of prev/next)
   function renderGradientSteps() {
+    // Make sure we have valid questions to render
+    if (!QUESTIONS || QUESTIONS.length === 0 || step >= QUESTIONS.length) {
+      console.error("Invalid questions or step state", { step, questionsLength: QUESTIONS?.length });
+      return <div>Loading questions...</div>;
+    }
+    
     const prev = step > 0 ? renderQuestion(QUESTIONS[step - 1], step - 1) : null;
     const curr = renderQuestion(QUESTIONS[step], step);
     const next = step < QUESTIONS.length - 1 ? renderQuestion(QUESTIONS[step + 1], step + 1) : null;
+    
     return (
       <div className="survey-gradient-wrapper">
         {prev && <div className="survey-fade-prev">{prev}</div>}
