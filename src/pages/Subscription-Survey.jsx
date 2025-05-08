@@ -387,8 +387,8 @@ function SubscriptionSurvey() {
             </button>
           ) : (
             <button className="survey-next" onClick={() => {
-              setIsTyping(true);
-              setError("");
+              setValidationError("");
+              setSubmitError("");
               setStep((s) => Math.min(s + 1, QUESTIONS.length - 1));
             }}>Next</button>
           )}
