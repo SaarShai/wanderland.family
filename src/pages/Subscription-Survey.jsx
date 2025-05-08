@@ -102,12 +102,10 @@ const QUESTIONS = [
   },
 ];
 
-// IMPORTANT: Only show errors on final submit, never during input
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqh23Y6SgkCDSV1Ln4lypNud6BR3gZw-ZzLO_0q5Jr9-LhuetiLBocsTVf43rFRYTr/exec";
+// Formspree form ID - replace with your own form ID after signing up at formspree.io
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
 
-// Global variable to track if we're in the final submit process
-let isSubmitting = false;
-
+// Generate a unique session ID for tracking submissions
 function getSessionId() {
   let id = localStorage.getItem("subscriptionSurveySessionId");
   if (!id) {
@@ -147,16 +145,9 @@ function SubscriptionSurvey() {
   const [validationError, setValidationError] = useState(""); // Only used for validation errors
   const scrollRef = useRef(null);
   
-  // Debug error state changes
-  useEffect(() => {
-    console.log("SUBMIT ERROR CHANGED:", submitError);
-  }, [submitError]);
-  
   // Reset errors on any state change
   useEffect(() => {
-    if (!isSubmitting) {
-      setSubmitError("");
-    }
+    setSubmitError("");
   }, [answers, step]);
 
   // For scroll/gradient effect
@@ -210,55 +201,35 @@ function SubscriptionSurvey() {
     setValidationError("");
     setSubmitError("");
     
-    // Set global flag that we're in submit process
-    isSubmitting = true;
-    
     try {
-      // Format data for Google Apps Script
-      const payload = { ...answers, sessionId: getSessionId(), timestamp: new Date().toISOString() };
+      // Prepare data for Formspree
+      const formData = {
+        ...answers,
+        sessionId: getSessionId(),
+        timestamp: new Date().toISOString()
+      };
       
-      // Debug what we're sending
-      console.log("Sending data to Google Script:", payload);
-      console.log("Google Script URL:", GOOGLE_SCRIPT_URL);
-      
-      // Google Apps Script expects form data or URL parameters, not JSON
-      // Let's try with URLSearchParams instead
-      const formData = new URLSearchParams();
-      // Add each field to the form data
-      for (const key in payload) {
-        if (Array.isArray(payload[key])) {
-          // Handle arrays (like checkbox selections)
-          formData.append(key, payload[key].join(", "));
-        } else {
-          formData.append(key, payload[key] || "");
+      // Convert arrays to comma-separated strings for better readability in emails
+      Object.keys(formData).forEach(key => {
+        if (Array.isArray(formData[key])) {
+          formData[key] = formData[key].join(", ");
         }
-      }
-      
-      const res = await fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        body: formData,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
       });
       
-      // Debug the response
-      const responseText = await res.text();
-      console.log("Response from Google Script:", responseText);
+      // Send to Formspree
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
       
-      let result;
-      try {
-        result = JSON.parse(responseText);
-      } catch (parseError) {
-        console.error("Failed to parse response as JSON:", responseText);
-        throw new Error("Invalid response format");
-      }
-      
-      if (result && result.result === "success") {
-        console.log("Submission successful!");
+      if (response.ok) {
+        console.log("Form submitted successfully!");
         setSent(true);
       } else {
-        console.error("Submission failed:", result);
+        console.error("Form submission failed:", await response.text());
         setSubmitError("Could not submit your response. Please try again later.");
       }
     } catch (e) {
@@ -267,8 +238,6 @@ function SubscriptionSurvey() {
     }
     
     setSending(false);
-    // Reset global flag
-    isSubmitting = false;
   };
 
   function renderQuestion(q, idx) {
