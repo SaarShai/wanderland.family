@@ -117,7 +117,7 @@ function getSessionId() {
 
 const IntroSection = () => (
   <div className="survey-intro">
-    <h1>Kids Hospitality Subscription Service by Wanderland</h1>
+    <h1>Kids Hospitality Subscription Service by Wanderland - UPDATED VERSION</h1>
     <p>
       1. Monthly Subscription Box - a monthly kids and teens amenities, gifts and activities subscription box, adapting to season, holidays, themes, and peak weeks.<br/>
       2. Kids Consultancy Subscription - family guest strategy, brand partnership opportunities, expertise, insights and digital assets
@@ -230,7 +230,7 @@ function SubscriptionSurvey() {
         setSent(true);
       } else {
         console.error("Form submission failed:", await response.text());
-        setSubmitError("Could not submit your response. Please try again later.");
+        setSubmitError("Formspree submission failed. Please try again or contact us directly.");
       }
     } catch (e) {
       console.error("Error during submission:", e);
