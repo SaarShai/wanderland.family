@@ -24,9 +24,10 @@ jobs:
 
       - name: Copy static survey files to dist
         run: |
-          cp subscription-survey.html dist/
-          cp subscription-survey.css dist/
-          cp subscription-survey.js dist/
+          # Copy files if they exist, don't fail if they don't
+          cp subscription-survey.html dist/ || true
+          cp subscription-survey.css dist/ || true
+          [ -f subscription-survey.js ] && cp subscription-survey.js dist/ || echo "subscription-survey.js not found, skipping"
 
       - name: Upload to Porkbun FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
