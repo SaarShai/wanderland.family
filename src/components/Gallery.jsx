@@ -73,7 +73,7 @@ const galleryItems = [
   {
     id: 'minibar',
     title: 'Kids Minibar',
-    image: '/Kids Minibar/cover.jpg',
+    image: '/src/assets/images/Kids Minibar/cover.jpg',
     desc: 'A playful minibar concept for young guests.'
   },
   // More items can be added here

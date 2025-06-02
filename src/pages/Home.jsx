@@ -172,7 +172,7 @@ const Home = () => (
         </HeroSubtitle>
       </HeroContent>
       <HeroImageWrapper>
-        <HeroImage src="/hero image.png" alt="Wanderland Studio Hero" />
+        <HeroImage src="/src/assets/images/hero image.png" alt="Wanderland Studio Hero" />
         <HeroOverlay />
       </HeroImageWrapper>
     </HeroSection>
