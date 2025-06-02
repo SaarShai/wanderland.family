@@ -18,11 +18,20 @@ const Nav = styled.nav`
 `;
 
 const Logo = styled.div`
-  font-family: var(--font-secondary);
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  height: 3.2rem;
+  @media (max-width: 600px) {
+    height: 2.2rem;
+  }
+`;
+
+const LogoImg = styled.img`
+  height: 100%;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+  display: block;
 `;
 
 const Menu = styled.ul`
@@ -64,7 +73,9 @@ const NavMobile = styled.div`
 
 const Navbar = () => (
   <Nav>
-    <Logo>Wanderland Studio</Logo>
+    <Logo>
+  <LogoImg src={require('../assets/images/wanderland-lablogo.jpg')} alt="Wanderland Studio Logo" />
+</Logo>
     <Menu>
       <MenuItem><a href="#about">About</a></MenuItem>
       <MenuItem><a href="#gallery">Gallery</a></MenuItem>
