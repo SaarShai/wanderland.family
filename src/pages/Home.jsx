@@ -166,9 +166,9 @@ const Home = () => (
     <Navbar />
     <HeroSection>
       <HeroContent>
-        <HeroTitle>Designs for Young Explorers</HeroTitle>
+        <HeroTitle>Introducing: The Divided Family Suite</HeroTitle>
         <HeroSubtitle>
-          We help hotels create unforgettable experiences for kids and teens. Our unique, research-driven concepts inspire, engage, and delight families worldwide.
+          Convert any hotel room into a family-friendly suite for the parents and a magical kingdom for the kids.
         </HeroSubtitle>
       </HeroContent>
       <HeroImageWrapper>
