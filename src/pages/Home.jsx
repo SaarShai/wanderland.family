@@ -88,28 +88,61 @@ const HeroImageWrapper = styled.div`
   align-items: center;
   justify-content: flex-end;
   position: relative;
+  gap: 2rem;
   @media (max-width: 900px) {
     width: 100vw;
-    height: 260px;
+    height: auto;
     justify-content: center;
     margin-bottom: 2rem;
+    gap: 1rem;
   }
 `;
 
-const HeroImage = styled.img`
-  width: 380px;
-  max-width: 45vw;
-  height: auto;
+const FloatingImageContainer = styled.div`
   border-radius: 1.5rem;
-  box-shadow: 0 8px 40px rgba(30,30,60,0.13);
-  border: 2px solid #fff;
+  box-shadow: 0 8px 40px rgba(30,30,60,0.18);
   background: #fff;
-  object-fit: cover;
+  border: 2px solid #fff;
+  overflow: hidden;
+  width: 220px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: floatAnim 7s ease-in-out infinite;
+  position: relative;
   @media (max-width: 900px) {
-    width: 90vw;
-    max-width: 90vw;
-    height: 240px;
+    width: 44vw;
+    height: 180px;
     border-radius: 1.2rem;
+  }
+  @keyframes floatAnim {
+    0% { transform: translateY(0px) translateX(0px) scale(1); }
+    20% { transform: translateY(-5px) translateX(3px) scale(1.01); }
+    40% { transform: translateY(6px) translateX(-2px) scale(0.99); }
+    60% { transform: translateY(-3px) translateX(2px) scale(1.02); }
+    80% { transform: translateY(4px) translateX(-3px) scale(1); }
+    100% { transform: translateY(0px) translateX(0px) scale(1); }
+  }
+`;
+
+const FloatingImageContainerRight = styled(FloatingImageContainer)`
+  animation-delay: 2.5s;
+`;
+
+const FloatingImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const ArrowWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  @media (max-width: 900px) {
+    height: 36px;
   }
 `;
 
@@ -172,9 +205,19 @@ const Home = () => (
         </HeroSubtitle>
       </HeroContent>
       <HeroImageWrapper>
-        <HeroImage src="/src/assets/images/hero image.png" alt="Wanderland Studio Hero" />
-        <HeroOverlay />
-      </HeroImageWrapper>
+  <FloatingImageContainer>
+    <FloatingImg src={require('../assets/images/website-castleroom-before.jpg')} alt="Family Suite Before" />
+  </FloatingImageContainer>
+  <ArrowWrapper>
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{display:'block'}}>
+      <path d="M8 24H40" stroke="#1e90ff" strokeWidth="3" strokeLinecap="round"/>
+      <path d="M32 16L40 24L32 32" stroke="#1e90ff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  </ArrowWrapper>
+  <FloatingImageContainerRight>
+    <FloatingImg src={require('../assets/images/website-castleroom-after.jpg')} alt="Family Suite After" />
+  </FloatingImageContainerRight>
+</HeroImageWrapper>
     </HeroSection>
     <AboutSection id="about">
       <AboutSectionTitle>Who We Are</AboutSectionTitle>
