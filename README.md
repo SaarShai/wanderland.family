@@ -30,6 +30,7 @@ A beautiful, minimal, and adaptive website for a design agency specializing in h
 ## Project Structure
 - `src/` — All source code
   - `components/` — Reusable UI components
+
   - `pages/` — Page components (Home, Gallery, Item, etc.)
   - `styles/` — Global styles and theme
 - `public/` — Static assets (e.g., `hero image.png`)
