@@ -331,15 +331,12 @@ const Home = () => (
     <NatureThemeSection>
       <NatureThemeImageGroup>
         <NatureThemeImageWrapper size="small">
-          <NatureThemeCaption>Versatile Adaptable Design</NatureThemeCaption>
           <NatureThemeImg src={natureThemeProduct} alt="Nature Theme Product" />
         </NatureThemeImageWrapper>
         <NatureThemeImageWrapper size="medium">
-          <NatureThemeCaption>Hotel Lobby; Nature Theme</NatureThemeCaption>
           <NatureThemeImg src={bestLobbyNature} alt="Hotel Lobby Nature Theme" />
         </NatureThemeImageWrapper>
         <NatureThemeImageWrapper size="large">
-          <NatureThemeCaption>Junior Suite; Nature Theme</NatureThemeCaption>
           <NatureThemeImg src={besterRoomNatureWChild} alt="Junior Suite Nature Theme" />
         </NatureThemeImageWrapper>
       </NatureThemeImageGroup>
