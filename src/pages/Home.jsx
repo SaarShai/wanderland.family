@@ -62,14 +62,8 @@ const HeroSection = styled.section`
   background: #fff;
   padding-top: 6rem;
   overflow: hidden;
-  max-width: 1200px;
-  margin: 0 auto;
-  @media (max-width: 1300px) {
-    max-width: 100vw;
-    padding-left: 2vw;
-    padding-right: 2vw;
-  }
   @media (max-width: 900px) {
+    flex-direction: column;
     min-height: 55vh;
     padding-top: 4rem;
   }
@@ -94,26 +88,25 @@ const HeroImageWrapper = styled.div`
   flex: 1 1 0;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
   position: relative;
   gap: 2.5rem;
-  padding-left: 3vw;
+  padding-right: 6vw;
   @media (max-width: 1200px) {
     gap: 1.2rem;
-    padding-left: 2vw;
+    padding-right: 2vw;
   }
   @media (max-width: 900px) {
-    gap: 0.7rem;
-    padding-left: 1vw;
+    gap: 0.8rem;
+    padding-right: 0;
   }
   @media (max-width: 600px) {
-    gap: 0.3rem;
-    padding-left: 0.5vw;
+    gap: 0.5rem;
+    padding-right: 0;
   }
-  @media (max-width: 350px) {
+  @media (max-width: 400px) {
     flex-direction: column;
     gap: 1rem;
-    padding-left: 0;
   }
 `;
 
@@ -128,20 +121,19 @@ const FloatingImageContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
   animation: floatAnim 7s ease-in-out infinite;
   position: relative;
   @media (max-width: 1200px) {
-    width: 120px;
+    width: 140px;
   }
   @media (max-width: 900px) {
-    width: 28vw;
+    width: 38vw;
     border-radius: 1.2rem;
   }
   @media (max-width: 600px) {
-    width: 38vw;
+    width: 44vw;
   }
-  @media (max-width: 350px) {
+  @media (max-width: 400px) {
     width: 90vw;
   }
   @keyframes floatAnim {
@@ -161,10 +153,7 @@ const FloatingImageContainerRight = styled(FloatingImageContainer)`
 const FloatingImg = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  display: block;
-  padding: 0;
-  margin: 0;
+  object-fit: cover;
 `;
 
 const ArrowWrapper = styled.div`
