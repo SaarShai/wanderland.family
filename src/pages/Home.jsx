@@ -94,25 +94,26 @@ const HeroImageWrapper = styled.div`
   flex: 1 1 0;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   position: relative;
   gap: 2.5rem;
-  margin-right: 0;
+  padding-left: 3vw;
   @media (max-width: 1200px) {
     gap: 1.2rem;
-    margin-right: 0;
+    padding-left: 2vw;
   }
   @media (max-width: 900px) {
     gap: 0.7rem;
-    margin-right: 0;
+    padding-left: 1vw;
   }
   @media (max-width: 600px) {
     gap: 0.3rem;
-    margin-right: 0;
+    padding-left: 0.5vw;
   }
   @media (max-width: 350px) {
     flex-direction: column;
     gap: 1rem;
+    padding-left: 0;
   }
 `;
 
@@ -160,7 +161,7 @@ const FloatingImageContainerRight = styled(FloatingImageContainer)`
 const FloatingImg = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   padding: 0;
   margin: 0;
