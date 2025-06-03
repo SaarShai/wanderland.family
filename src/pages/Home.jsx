@@ -94,11 +94,11 @@ const HeroImageWrapper = styled.div`
   padding-right: 6vw;
   @media (max-width: 1200px) {
     gap: 1.2rem;
-    padding-right: 2vw;
+    padding-right: 4vw;
   }
   @media (max-width: 900px) {
     gap: 0.8rem;
-    padding-right: 0;
+    padding-right: 4vw;
   }
   @media (max-width: 600px) {
     gap: 0.5rem;
@@ -117,7 +117,7 @@ const FloatingImageContainer = styled.div`
   border: 2px solid #fff;
   overflow: hidden;
   width: 240px;
-  aspect-ratio: 4/5;
+  aspect-ratio: 6/5;
   display: flex;
   align-items: center;
   justify-content: center;
