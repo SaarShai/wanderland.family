@@ -74,13 +74,21 @@ const HeroContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 6vw;
-  max-width: 520px;
+  align-items: flex-start;
+  padding-left: 8vw;
   z-index: 2;
+  @media (max-width: 1200px) {
+    padding-left: 4vw;
+  }
   @media (max-width: 900px) {
-    margin-left: 4vw;
-    max-width: 90vw;
-    margin-bottom: 2rem;
+    padding-left: 2vw;
+    padding-top: 4.5rem;
+    align-items: center;
+    text-align: center;
+  }
+  @media (max-width: 600px) {
+    padding-left: 0;
+    padding-top: 2.5rem;
   }
 `;
 
