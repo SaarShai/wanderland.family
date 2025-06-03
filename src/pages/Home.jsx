@@ -127,7 +127,7 @@ const FloatingImageContainer = styled.div`
   border: 2px solid #fff;
   overflow: hidden;
   width: 240px;
-  aspect-ratio: 6/5;
+  aspect-ratio: 8/5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -259,7 +259,7 @@ const NatureThemeImageWrapper = styled.div`
   box-shadow: 0 8px 40px rgba(30,30,60,0.14);
   border: 2px solid #eee;
   overflow: hidden;
-  aspect-ratio: 6/5;
+  aspect-ratio: 8/5;
   animation: floatAnim 7s ease-in-out infinite;
   position: relative;
   margin-bottom: 0.8rem;
@@ -288,7 +288,7 @@ const NatureThemeImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  aspect-ratio: 6/5;
+  aspect-ratio: 8/5;
 `;
 
 const NatureThemeCaption = styled.div`
