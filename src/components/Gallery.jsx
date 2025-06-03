@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import kidsMinibarCover from '../assets/images/Kids Minibar/cover.jpg';
 
 const GallerySection = styled.section`
   background: #fafbfc;
@@ -74,7 +73,7 @@ const galleryItems = [
   {
     id: 'minibar',
     title: 'Kids Minibar',
-    image: kidsMinibarCover,
+    image: '',
     desc: 'A playful minibar concept for young guests.'
   },
   // More items can be added here

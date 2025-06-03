@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useParams, Link } from 'react-router-dom';
-import kidsMinibarCover from '../assets/images/Kids Minibar/cover.jpg';
 
 const ItemWrapper = styled.div`
   min-height: 100vh;
@@ -51,7 +50,7 @@ const galleryItems = [
   {
     id: 'minibar',
     title: 'Kids Minibar',
-    image: kidsMinibarCover,
+    image: '',
     desc: 'A playful minibar concept designed to delight young guests with healthy snacks, creative packaging, and interactive surprises.'
   },
   // Add more items here as needed
