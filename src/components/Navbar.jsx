@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import logoImg from '../assets/images/wanderland-lablogo.jpg';
 
 const Nav = styled.nav`
   width: 100%;
@@ -74,7 +75,7 @@ const NavMobile = styled.div`
 const Navbar = () => (
   <Nav>
     <Logo>
-  <LogoImg src={require('../assets/images/wanderland-lablogo.jpg')} alt="Wanderland Studio Logo" />
+  <LogoImg src={logoImg} alt="Wanderland Studio Logo" />
 </Logo>
     <Menu>
       <MenuItem><a href="#about">About</a></MenuItem>
