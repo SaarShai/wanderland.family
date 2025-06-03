@@ -2,6 +2,8 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import Gallery from '../components/Gallery';
 import styled from 'styled-components';
+import beforeImg from '../assets/images/website-castleroom-before.jpg';
+import afterImg from '../assets/images/website-castleroom-after.jpg';
 
 const AboutSectionTitle = styled.h2`
   font-size: clamp(2rem, 6vw, 3.5rem);
@@ -206,7 +208,7 @@ const Home = () => (
       </HeroContent>
       <HeroImageWrapper>
   <FloatingImageContainer>
-    <FloatingImg src={require('../assets/images/website-castleroom-before.jpg')} alt="Family Suite Before" />
+    <FloatingImg src={beforeImg} alt="Family Suite Before" />
   </FloatingImageContainer>
   <ArrowWrapper>
     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{display:'block'}}>
@@ -215,7 +217,7 @@ const Home = () => (
     </svg>
   </ArrowWrapper>
   <FloatingImageContainerRight>
-    <FloatingImg src={require('../assets/images/website-castleroom-after.jpg')} alt="Family Suite After" />
+    <FloatingImg src={afterImg} alt="Family Suite After" />
   </FloatingImageContainerRight>
 </HeroImageWrapper>
     </HeroSection>
