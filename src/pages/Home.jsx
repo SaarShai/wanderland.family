@@ -4,6 +4,9 @@ import Gallery from '../components/Gallery';
 import styled from 'styled-components';
 import beforeImg from '../assets/images/website-castleroom-before.jpg';
 import afterImg from '../assets/images/website-castleroom-after.jpg';
+import natureThemeProduct from '../assets/images/nature-theme-product.jpg';
+import bestLobbyNature from '../assets/images/best-lobby-nature.jpg';
+import besterRoomNatureWChild from '../assets/images/bester-room-nature-w-child.jpg';
 
 const AboutSectionTitle = styled.h2`
   font-size: clamp(2rem, 6vw, 3.5rem);
@@ -50,7 +53,6 @@ const ContactLink = styled.a`
     color: var(--color-text);
   }
 `;
-
 
 const HeroSection = styled.section`
   position: relative;
@@ -222,6 +224,83 @@ const Section = styled.section`
   }
 `;
 
+const NatureThemeSection = styled.section`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3.5rem;
+  margin-bottom: 2.5rem;
+`;
+
+const NatureThemeImageGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+  gap: 2.5vw;
+  @media (max-width: 900px) {
+    gap: 1.2vw;
+  }
+  @media (max-width: 700px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+`;
+
+const NatureThemeImageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 40px rgba(30,30,60,0.14);
+  border: 2px solid #eee;
+  overflow: hidden;
+  aspect-ratio: 6/5;
+  animation: floatAnim 7s ease-in-out infinite;
+  position: relative;
+  margin-bottom: 0.8rem;
+  width: ${props => props.size === 'small' ? '180px' : props.size === 'medium' ? '270px' : '340px'};
+  @media (max-width: 1200px) {
+    width: ${props => props.size === 'small' ? '120px' : props.size === 'medium' ? '180px' : '240px'};
+  }
+  @media (max-width: 900px) {
+    width: ${props => props.size === 'small' ? '90px' : props.size === 'medium' ? '140px' : '180px'};
+  }
+  @media (max-width: 700px) {
+    width: ${props => props.size === 'small' ? '70vw' : props.size === 'medium' ? '84vw' : '94vw'};
+    max-width: 340px;
+  }
+  @keyframes floatAnim {
+    0% { transform: translateY(0px) scale(1); }
+    20% { transform: translateY(-3px) scale(1.01); }
+    40% { transform: translateY(4px) scale(0.99); }
+    60% { transform: translateY(-2px) scale(1.02); }
+    80% { transform: translateY(3px) scale(1); }
+    100% { transform: translateY(0px) scale(1); }
+  }
+`;
+
+const NatureThemeImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 6/5;
+`;
+
+const NatureThemeCaption = styled.div`
+  width: 100%;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #bcbcbc;
+  font-family: 'Georgia', serif;
+  margin-bottom: 0.3rem;
+  margin-top: 0.7rem;
+`;
+
 const Home = () => (
   <>
     <Navbar />
@@ -233,20 +312,39 @@ const Home = () => (
         </HeroSubtitle>
       </HeroContent>
       <HeroImageWrapper>
-  <FloatingImageContainer>
-    <FloatingImg src={beforeImg} alt="Family Suite Before" />
-  </FloatingImageContainer>
-  <ArrowWrapper>
-    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{display:'block'}}>
-      <path d="M8 24H40" stroke="#1e90ff" strokeWidth="3" strokeLinecap="round"/>
-      <path d="M32 16L40 24L32 32" stroke="#1e90ff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  </ArrowWrapper>
-  <FloatingImageContainerRight>
-    <FloatingImg src={afterImg} alt="Family Suite After" />
-  </FloatingImageContainerRight>
-</HeroImageWrapper>
+        <FloatingImageContainer>
+          <FloatingImg src={beforeImg} alt="Family Suite Before" />
+        </FloatingImageContainer>
+        <ArrowWrapper>
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{display:'block'}}>
+            <path d="M8 24H40" stroke="#1e90ff" strokeWidth="3" strokeLinecap="round"/>
+            <path d="M32 16L40 24L32 32" stroke="#1e90ff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </ArrowWrapper>
+        <FloatingImageContainerRight>
+          <FloatingImg src={afterImg} alt="Family Suite After" />
+        </FloatingImageContainerRight>
+      </HeroImageWrapper>
     </HeroSection>
+
+    {/* Nature Theme Section */}
+    <NatureThemeSection>
+      <NatureThemeImageGroup>
+        <NatureThemeImageWrapper size="small">
+          <NatureThemeCaption>Versatile Adaptable Design</NatureThemeCaption>
+          <NatureThemeImg src={natureThemeProduct} alt="Nature Theme Product" />
+        </NatureThemeImageWrapper>
+        <NatureThemeImageWrapper size="medium">
+          <NatureThemeCaption>Hotel Lobby; Nature Theme</NatureThemeCaption>
+          <NatureThemeImg src={bestLobbyNature} alt="Hotel Lobby Nature Theme" />
+        </NatureThemeImageWrapper>
+        <NatureThemeImageWrapper size="large">
+          <NatureThemeCaption>Junior Suite; Nature Theme</NatureThemeCaption>
+          <NatureThemeImg src={besterRoomNatureWChild} alt="Junior Suite Nature Theme" />
+        </NatureThemeImageWrapper>
+      </NatureThemeImageGroup>
+    </NatureThemeSection>
+
     <AboutSection id="about">
       <AboutSectionTitle>Who We Are</AboutSectionTitle>
       <AboutSectionDesc>
